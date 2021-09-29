@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html layout:decorator="admin/template">
+<head>
+<meta charset="utf-8">
+<title>Danh sách color</title>
+<style>
+.pagination {
+	display: flex;
+	justify-content: center;
+}
+
+.pagination a {
+	color: black;
+	float: left;
+	padding: 8px 16px;
+	text-decoration: none;
+	transition: background-color .3s;
+	border: 1px solid #ddd;
+}
+
+.pagination a.active {
+	background-color: #4CAF50;
+	color: white;
+	border: 1px solid #4CAF50;
+}
+
+.pagination a:hover:not(.active) {
+	background-color: #ddd;
+}
+</style>
+</head>
+<body layout:fragment="content" th:remove="tag">
+	<div class="row">
+
+		<div class="span12">
+			<ul class="breadcrumb">
+				<li><a th:href="@{/admin}">Home</a> <span class="divider">/</span></li>
+				<li class="active">Color & Image</li>
+			</ul>
+			<form th:action="@{/admin/color/search}"
+				class="navbar-search pull-left" method="get">
+				<input type="text" class="search-query span2" name="name"
+					placeholder="Tim them ten">
+				<button type="submit">
+					<i class="material-icons">search</i>
+				</button>
+			</form>
+			<div class="well well-small">
+				<hr class="soft" />
+				<h2>Danh sách color</h2>
+				<table class="table table-condensed">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Tên màu</th>
+							<th>Mã code</th>
+							<th>Tên Sản phẩm</th>
+							<th>Tùy chọn</th>
+						</tr>
+					</thead>
+					<tbody>
+						<div th:each="color : ${colorList}" th:remove=tag>
+							<tr>
+								<td th:text="${color.id}"></td>
+								<td th:text="${color.name}"></td>
+								<td th:text="${color.code}"></td>
+								<td th:text="${color.productDTO.name}"></td>
+								<td><a class="btn btn-primary btn-xs"
+									th:href="@{/admin/color/add}">Thêm </a><i class="fa fa-pencil"></i><a
+									class="btn btn-success btn-xs"
+									th:href="@{'/admin/color/update?id=' + ${color.id}}">Sửa </a><i
+									class="fa fa-pencil"></i><a class="btn btn-danger btn-xs"
+									th:href="@{'/admin/color/delete?id=' + ${color.id}}">Xóa
+										color </a></td>
+							</tr>
+						</div>
+
+					</tbody>
+				</table>
+				<br />
+			</div>
+		</div>
+	</div>
+	<div th:if="${result &gt; 0}">
+		<div class="pagination">
+			<a th:class="${i == currentPage ? 'active' : '' }"
+				th:href="@{'/admin/color/search?page=' + ${i}} +'&name=' +${name}"
+				th:each="i : ${#numbers.sequence( 1, result)}" th:text="${ i }+'  '"></a>
+		</div>
+	</div>
+</body>
+</html>

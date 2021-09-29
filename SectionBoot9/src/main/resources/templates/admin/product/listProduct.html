@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html layout:decorator="admin/template">
+<head>
+<meta charset="utf-8">
+<title>Danh sách Product</title>
+<style>
+.pagination {
+	display: flex;
+	justify-content: center;
+}
+
+.pagination a {
+	color: black;
+	float: left;
+	padding: 8px 16px;
+	text-decoration: none;
+	transition: background-color .3s;
+	border: 1px solid #ddd;
+}
+
+.pagination a.active {
+	background-color: #4CAF50;
+	color: white;
+	border: 1px solid #4CAF50;
+}
+
+.pagination a:hover:not(.active) {
+	background-color: #ddd;
+}
+</style>
+</head>
+<body layout:fragment="content" th:remove="tag">
+	<div class="row">
+
+		<div class="span12">
+			<ul class="breadcrumb">
+				<li><a th:href="@{/admin}">Home</a> <span class="divider">/</span></li>
+				<li class="active">Product</li>
+			</ul>
+			<form th:action="@{/admin/product/search}"
+				class="navbar-search pull-left" method="get">
+				<input type="text" class="search-query span2" name="name"
+					placeholder="Tim them ten">
+				<button type="submit">
+					<i class="material-icons">search</i>
+				</button>
+			</form>
+			<div class="well well-small">
+				<hr class="soft" />
+				<h2>Danh sách Product</h2>
+				<p th:text="${warring}"></p>
+				<table class="table table-condensed">
+					<thead>
+					
+						<tr class="strong">
+							<th>ID</th>
+							<th>Tên Sản phẩm</th>
+							<th>Image</th>
+							<th>Danh mục</th>
+							<th>Giá</th>
+							<th>Số lượng</th>
+							<th>Tùy chọn</th>
+						</tr>
+					</thead>
+					<tbody>
+						<div th:each="pro : ${productList}" th:remove=tag>
+							<tr>
+								<td th:text="${pro.id}"></td>
+								<td th:text="${pro.name}"></td>
+								<td><img th:src="@{'/download?image='+${pro	.img}}"
+									style="width: 100px; height: 100px;"></td>
+								<td th:text="${pro.categoryDTO.name}"></td>
+								<td th:text="${pro.price}"></td>
+								<td th:text="${pro.quantity}"></td>
+								<td><a class="btn btn-primary btn-xs"
+									th:href="@{/admin/product/add}">Thêm </a><i
+									class="fa fa-pencil"></i><a class="btn btn-success btn-xs"
+									th:href="@{'/admin/product/update?id=' + ${pro.id}}">Sửa </a><i
+									class="fa fa-pencil"></i><a class="btn btn-danger btn-xs"
+									th:href="@{'/admin/product/delete?id=' + ${pro.id}}">Xóa
+										sản phẩm </a></td>
+							</tr>
+						</div>
+					</tbody>
+				</table>
+				<br />
+			</div>
+		</div>
+	</div>
+	<div th:if="${result &gt; 0}">
+		<div class="pagination">
+			<a th:class="${i == currentPage ? 'active' : '' }"
+				th:href="@{'/admin/product/search?page=' + ${i}} +'&name=' +${name}"
+				th:each="i : ${#numbers.sequence( 1, result)}" th:text="${ i }+'  '"></a>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html layout:decorator="admin/template">
+<head>
+<meta charset="utf-8">
+<title>Danh sách billProduct</title>
+<style>
+.pagination {
+	display: flex;
+	justify-content: center;
+}
+
+.pagination a {
+	color: black;
+	float: left;
+	padding: 8px 16px;
+	text-decoration: none;
+	transition: background-color .3s;
+	border: 1px solid #ddd;
+}
+
+.pagination a.active {
+	background-color: #4CAF50;
+	color: white;
+	border: 1px solid #4CAF50;
+}
+
+.pagination a:hover:not(.active) {
+	background-color: #ddd;
+}
+</style>
+</head>
+<body layout:fragment="content" th:remove="tag">
+	<div class="row">
+
+		<div class="span12">
+			<ul class="breadcrumb">
+				<li><a th:href="@{/admin}">Home</a> <span class="divider">/</span></li>
+				<li class="active">Bill Product</li>
+			</ul>
+			<form th:action="@{/admin/bill-product/search-by-bill-id}"
+				class="navbar-search pull-left" method="get">
+				<input type="text" class="search-query span2" name="billId"
+					placeholder="Tim bill id">
+				<button type="submit">
+					<i class="material-icons">search</i>
+				</button>
+			</form>
+			<div class="well well-small">
+				<hr class="soft" />
+				<h2>Danh sách Bill Product by Bill Id</h2>
+				<table class="table table-condensed">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>BillId</th>
+							<th>Product Name</th>
+							<th>Unit Price</th>
+							<th>Quantity</th>
+							<th>Total</th>
+							<th>Option</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="billProduct:${billProList}">
+							<td th:text="${billProduct.id}"></td>
+							<td th:text="${billProduct.billDTO.id}"></td>
+							<td th:text="${billProduct.productDTO.name}"></td>
+							<td th:text="${billProduct.productDTO.price}"></td>
+							<td th:text="${billProduct.quantity}"></td>
+							<td
+								th:text="${billProduct.quantity*billProduct.productDTO.price}"></td>
+							<td><a class="btn btn-danger btn-xs"
+								th:href="@{'/admin/bill-product/delete?billProId='+${billProduct.id}}"><i
+									class="fa fa-trash-o "></i>Xóa</a></td>
+						</tr>
+
+					</tbody>
+				</table>
+				<br />
+			</div>
+		</div>
+	</div>
+	<div th:if="${result &gt; 0}">
+		<div class="pagination">
+			<a th:class="${i == currentPage ? 'active' : '' }"
+				th:href="@{'/admin/bill-product/search-by-bill-id?page=' + ${i}} +'&billId=' +${id}"
+				th:each="i : ${#numbers.sequence( 1, result)}" th:text="${ i }+'  '"></a>
+		</div>
+	</div>
+</body>
+</html>

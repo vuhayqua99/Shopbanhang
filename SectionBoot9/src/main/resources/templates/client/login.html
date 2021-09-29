@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html layout:decorator="client/template">
+<head>
+<meta charset="utf-8">
+<title>Login</title>
+</head>
+<body layout:fragment="content" th:remove="tag">
+	<!-- 
+Body Section 
+-->
+	<div class="row">
+		<div id="sidebar" class="span3">
+			<div class="well well-small">
+				<ul class="nav nav-list">
+					<div th:each="cate: ${categories}">
+						<li><a th:href="@{'/san-pham?cId=' + ${cate.id}}"><span
+								class="icon-circle-blank" th:text="' '+${cate.name}"></span></a></li> </br>
+					</div>
+					<div th:if="${session.totalQuantity != null}" th:remove=tag>
+						<li><a class="totalInCart" th:href="@{/cart}"><strong>Tổng
+									Tiền <span class="badge badge-warning pull-right"
+									style="line-height: 18px;"
+									th:text="${#numbers.formatDecimal(session.totalPrice, 0, 'COMMA', 0, 'POINT')}+'₫'"></span>
+							</strong></a></li>
+					</div>
+				</ul>
+			</div>
+			<div class="well well-small alert alert-warning cntr">
+				<h2>50% Discount</h2>
+				<p>
+					only valid for online order. <br> <br> <a
+						class="defaultBtn" href="#">Click here </a>
+				</p>
+			</div>
+			<div class="well well-small">
+				<a href="#"><img th:src="@{/assets/user/img/paypal.jpg}"
+					alt="payment method paypal"></a>
+			</div>
+
+			<a class="shopBtn btn-block" href="#">Sản phẩm sắp ra mắt <br>
+				<small>Click to view</small></a> <br> <br>
+			<ul class="nav nav-list promowrapper">
+				<div th:each="pro3: ${products3}">
+					<li>
+						<div class="thumbnail">
+							<a class="zoomTool"
+								th:href="@{'/chi-tiet-san-pham/' +${pro3.id}}"
+								title="add to cart"><span class="icon-search"></span> QUICK
+								VIEW</a> <img th:src="@{'/download?image=' + ${pro3.img}}"
+								alt="bootstrap ecommerce templates">
+							<div class="caption">
+								<h4>
+									<a class="defaultBtn"
+										th:href="@{'/chi-tiet-san-pham/' +${pro3.id}}">VIEW</a> <span
+										class="pull-right"
+										th:text="${#numbers.formatDecimal(pro3.price, 0, 'COMMA', 0, 'POINT')}+'₫'"></span>
+								</h4>
+							</div>
+						</div>
+					</li>
+					<li style="border: 0">&nbsp;</li>
+				</div>
+			</ul>
+
+		</div>
+		<div class="span9">
+			<ul class="breadcrumb">
+				<li><a href="index.html">Home</a> <span class="divider">/</span></li>
+				<li class="active">Login</li>
+			</ul>
+			<h3>Login</h3>
+			<hr class="soft" />
+
+			<div class="row">
+				<div class="span4">
+					<div class="well">
+						<h5>Tạo mới tài khoản</h5>
+						<br /> Thỏa sức mua sắm với những ưu đãi cực hot<br /> <br /> <br />
+						<a class="defaultBtn" th:href="@{/register}">Đăng ký</a>
+					</div>
+				</div>
+				<div class="span1">&nbsp;</div>
+				<div class="span4">
+					<div class="well">
+						<h5>ALREADY REGISTERED ?</h5>
+						
+						<p th:if="${e} == 'erorr'">Tài khoản mật khẩu không chính xác</p>
+						<p th:if="${e} == 'deny'">Tài khoản không được quyền truy cập</p>
+						<form method="post" th:action="@{/login}">
+							<div class="control-group">
+								<label class="control-label" for="inputEmail">Username</label>
+								<div class="controls">
+									<input class="span3" name="username" type="text"
+										placeholder="Username">
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="inputPassword">Password</label>
+								<div class="controls">
+									<input type="password" name="password" class="span3"
+										placeholder="Password">
+								</div>
+							</div>
+							<div class="control-group">
+								<div class="controls">
+									<button type="submit" class="defaultBtn">Đăng nhập</button>
+									<a href="#">Forget password?</a>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html layout:decorator="client/template">
+<head>
+<meta charset="utf-8" />
+<title>Product</title>
+<style>
+.pagination {
+	display: flex;
+	justify-content: center;
+}
+
+.pagination a {
+	color: black;
+	float: left;
+	padding: 8px 16px;
+	text-decoration: none;
+	transition: background-color .3s;
+	border: 1px solid #ddd;
+}
+
+.pagination a.active {
+	background-color: #4CAF50;
+	color: white;
+	border: 1px solid #4CAF50;
+}
+
+.pagination a:hover:not(.active) {
+	background-color: #ddd;
+}
+</style>
+
+
+</head>
+
+<body layout:fragment="content" th:remove="tag">
+	<div class="well well-small">
+
+		<div class="row">
+			<span style="margin-left: 25px;"> Danh sách sản phẩm </span> <select
+				class="pull-right">
+				<option>A - Z</option>
+				<option>Cao - Thấp</option>
+			</select>
+		</div>
+		<div class="row-fluid">
+
+			<ul class="thumbnails">
+				<div th:each="pro: ${productList}">
+					<li class="span4">
+						<div class="thumbnail">
+							<a class="zoomTool" href="product_details.html"
+								title="add to cart"><span class="icon-search"></span> QUICK
+								VIEW</a> <a th:href="@{'/chi-tiet-san-pham/'+${pro.id}}"><img
+								th:src="@{'/download?image=/' + ${pro.img}}"
+								alt="bootstrap ecommerce templates"></a>
+							<div class="caption">
+								<h5 th:text="${pro.name}"></h5>
+								<h4>
+									<a class="defaultBtn" href="product_details.html"
+										title="Click to view"><span class="icon-zoom-in"></span></a> <a
+										class="shopBtn" href="#" title="add to cart"><span
+										class="icon-plus"></span></a> <span class="pull-right"
+										th:text="'$' + ${pro.price}"></span>
+								</h4>
+							</div>
+						</div>
+					</li>
+				</div>
+			</ul>
+		</div>
+	</div>
+	<div th:if="${result &gt; 0}">
+		<div class="pagination">
+			<a th:class="${i == currentPage ? 'active' : '' }"
+				th:href="@{'/search-san-pham?page=' + ${i}} +'&name=' +${keyword}"
+				th:each="i : ${#numbers.sequence( 1, result)}" th:text="${ i }+'  '"></a>
+		</div>
+	</div>
+</body>
+</html>
