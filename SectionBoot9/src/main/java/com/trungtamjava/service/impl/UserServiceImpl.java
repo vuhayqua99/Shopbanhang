@@ -18,7 +18,6 @@ import com.trungtamjava.model.SearchUserDTO;
 import com.trungtamjava.model.UserDTO;
 import com.trungtamjava.model.UserPrincipal;
 import com.trungtamjava.service.UserService;
-import com.trungtamjava.utils.DateTimeUtils;
 import com.trungtamjava.utils.PasswordGenerator;
 
 @Service
@@ -43,58 +42,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public UserDTO get(Long id) {
 		User user = userDao.get(id);
-		UserDTO userDTO = new UserDTO();
-		userDTO.setId(user.getId());
-		userDTO.setName(user.getName());
-		userDTO.setUsername(user.getUsername());
-		userDTO.setPassword(user.getPassword());
-		userDTO.setAddress(user.getAddress());
-		userDTO.setGender(user.getGender());
-		userDTO.setPhone(user.getPhone());
-		userDTO.setEmail(user.getEmail());
-		userDTO.setRole(user.getRole());
-		userDTO.setEnabled(user.isEnabled());
-		userDTO.setAge(user.getAge());
-		return userDTO;
+		return convertToDTO(user);
 	}
 
 	@Override
 	public UserDTO getByUserName(String userName) {
 		User user = userDao.getByUserName(userName);
-		UserDTO userDTO = new UserDTO();
-		userDTO.setId(user.getId());
-		userDTO.setName(user.getName());
-		userDTO.setUsername(user.getUsername());
-		userDTO.setPassword(user.getPassword());
-		userDTO.setAddress(user.getAddress());
-		userDTO.setGender(user.getGender());
-		userDTO.setPhone(user.getPhone());
-		userDTO.setEmail(user.getEmail());
-		userDTO.setRole(user.getRole());
-		userDTO.setEnabled(user.isEnabled());
-
-		return userDTO;
+		return convertToDTO(user);
 	}
 
 	@Override
 	public List<UserDTO> search(String name, int start, int length) {
 		List<User> lUserrs = userDao.search(name, start, length);
 		List<UserDTO> lDtos = new ArrayList<UserDTO>();
-		for (User user : lUserrs) {
-			UserDTO userDTO = new UserDTO();
-			userDTO.setId(user.getId());
-			userDTO.setName(user.getName());
-			userDTO.setUsername(user.getUsername());
-			userDTO.setPassword(user.getPassword());
-			userDTO.setAddress(user.getAddress());
-			userDTO.setGender(user.getGender());
-			userDTO.setPhone(user.getPhone());
-			userDTO.setEmail(user.getEmail());
-			userDTO.setRole(user.getRole());
-			userDTO.setEnabled(user.isEnabled());
-			userDTO.setAge(user.getAge());
-			lDtos.add(userDTO);
-		}
+		lUserrs.forEach(user -> {
+			lDtos.add(convertToDTO(user));
+		});
 
 		return lDtos;
 	}
@@ -127,18 +90,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	public void insert(UserDTO userDTO) {
-		User user = new User();
-		user.setName(userDTO.getName());
-		user.setAge(userDTO.getAge());
-		user.setUsername(userDTO.getUsername());
-		user.setPassword(PasswordGenerator.getHashString(userDTO.getPassword()));
-		user.setGender(userDTO.getGender());
-		user.setAddress(userDTO.getAddress());
-		user.setRole(userDTO.getRole());
-		user.setPhone(userDTO.getPhone());
-		user.setEmail(userDTO.getEmail());
-		user.setEnabled(userDTO.isEnabled());
-		userDao.insert(user);
+		userDao.insert(convertUser(userDTO));
 
 	}
 
@@ -185,21 +137,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	public List<UserDTO> getAllUsers(int start, int length) {
 		List<User> lUserrs = userDao.getAllUsers(start, length);
 		List<UserDTO> lDtos = new ArrayList<UserDTO>();
-		for (User user : lUserrs) {
-			UserDTO userDTO = new UserDTO();
-			userDTO.setId(user.getId());
-			userDTO.setName(user.getName());
-			userDTO.setUsername(user.getUsername());
-			userDTO.setPassword(user.getPassword());
-			userDTO.setAddress(user.getAddress());
-			userDTO.setGender(user.getGender());
-			userDTO.setPhone(user.getPhone());
-			userDTO.setEmail(user.getEmail());
-			userDTO.setRole(user.getRole());
-			userDTO.setEnabled(user.isEnabled());
-			userDTO.setAge(user.getAge());
-			lDtos.add(userDTO);
-		}
+		lUserrs.forEach(user -> {
+			lDtos.add(convertToDTO(user));
+		});
 		return lDtos;
 	}
 
@@ -271,6 +211,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 //		}
 
 		return userDTO;
+	}
+
+	private User convertUser(UserDTO userDTO) {
+		User user = new User();
+		user.setName(userDTO.getName());
+		user.setAge(userDTO.getAge());
+		user.setUsername(userDTO.getUsername());
+		user.setPassword(PasswordGenerator.getHashString(userDTO.getPassword()));
+		user.setGender(userDTO.getGender());
+		user.setAddress(userDTO.getAddress());
+		user.setRole(userDTO.getRole());
+		user.setPhone(userDTO.getPhone());
+		user.setEmail(userDTO.getEmail());
+		user.setEnabled(userDTO.isEnabled());
+
+		return user;
 	}
 
 }

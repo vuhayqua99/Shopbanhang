@@ -111,14 +111,14 @@ public class MemberController extends BaseController2 {
 			BillProductDTO billProductDTO = new BillProductDTO();// Tao moi 1 billproduct
 			billProductDTO.setProductDTO(productDTO);// set product trong billProduct
 			billProductDTO.setQuantity(1);// set sl =1
-			billProductDTO.setUnitPrice(productDTO.getPrice());// set unitprice bang product price
+			billProductDTO.setUnitPrice(productDTO.getPrice());// set don gia bang product price
 			Map<Integer, BillProductDTO> map = new HashMap<Integer, BillProductDTO>();// Tao map de nhet billproduct vao
 			map.put(pId, billProductDTO);// Vut billproduct vao map su dung pId cua product
 			session.setAttribute("cart", map);// set lai session
 			session.setAttribute("totalPrice", totalPrice(map));
 			session.setAttribute("totalQuantity", totalQuantity(map));
 		} else {
-			Map<Integer, BillProductDTO> map = (Map<Integer, BillProductDTO>) object;// Lay map trong session ra(ep kieu
+			Map<Integer, BillProductDTO> map = (Map<Integer, BillProductDTO>) object;// Lay map trong session ra (ep kieu
 																						// doi tuong)
 			BillProductDTO billProductDTO = map.get(pId);// Lay billproduct trong map ra
 			if (billProductDTO == null) {// Neu chua co billproduct trong map cua session

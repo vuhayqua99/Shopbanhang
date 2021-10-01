@@ -26,27 +26,9 @@ public class BillProductServiceImpl implements BillProductService {
 	public List<BillProductDTO> searchByBillId(int id, int start, int length) {
 		List<BillProduct> billProducts = billProductDao.searchByBillId(id, start, length);
 		List<BillProductDTO> billProductDTOs = new ArrayList<BillProductDTO>();
-		for (BillProduct bp : billProducts) {
-			BillProductDTO billProductDTO = new BillProductDTO();
-			billProductDTO.setId(bp.getId());
-			billProductDTO.setQuantity(bp.getQuantity());
-			billProductDTO.setUnitPrice(bp.getUnitPrice());
-
-			ProductDTO productDTO = new ProductDTO();
-			productDTO.setName(bp.getProduct().getName());
-			productDTO.setId(bp.getProduct().getId());
-			productDTO.setPrice(bp.getProduct().getPrice());
-
-			BillDTO billDTO = new BillDTO();
-			billDTO.setId(bp.getBill().getId());
-
-			billProductDTO.setProductDTO(productDTO);
-			billProductDTO.setBillDTO(billDTO);
-
-			billProductDTOs.add(billProductDTO);
-
-		}
-
+		billProducts.forEach(billp -> {
+			billProductDTOs.add(convertDTO(billp));
+		});
 		return billProductDTOs;
 	}
 
@@ -54,26 +36,9 @@ public class BillProductServiceImpl implements BillProductService {
 	public List<BillProductDTO> searchByName(String name, int start, int length) {
 		List<BillProduct> billProducts = billProductDao.searchByName(name, start, length);
 		List<BillProductDTO> billProductDTOs = new ArrayList<BillProductDTO>();
-		for (BillProduct bp : billProducts) {
-			BillProductDTO billProductDTO = new BillProductDTO();
-			billProductDTO.setId(bp.getId());
-			billProductDTO.setQuantity(bp.getQuantity());
-			billProductDTO.setUnitPrice(bp.getUnitPrice());
-
-			ProductDTO productDTO = new ProductDTO();
-			productDTO.setName(bp.getProduct().getName());
-			productDTO.setId(bp.getProduct().getId());
-			productDTO.setPrice(bp.getProduct().getPrice());
-
-			BillDTO billDTO = new BillDTO();
-			billDTO.setId(bp.getBill().getId());
-
-			billProductDTO.setProductDTO(productDTO);
-			billProductDTO.setBillDTO(billDTO);
-
-			billProductDTOs.add(billProductDTO);
-
-		}
+		billProducts.forEach(billp -> {
+			billProductDTOs.add(convertDTO(billp));
+		});
 
 		return billProductDTOs;
 	}
@@ -81,23 +46,8 @@ public class BillProductServiceImpl implements BillProductService {
 	@Override
 	public BillProductDTO get(int id) {
 		BillProduct billProduct = billProductDao.get(id);
-		BillProductDTO billProductDTO = new BillProductDTO();
-		billProductDTO.setId(billProduct.getId());
-		billProductDTO.setQuantity(billProduct.getQuantity());
-		billProductDTO.setUnitPrice(billProduct.getUnitPrice());
 
-		ProductDTO productDTO = new ProductDTO();
-		productDTO.setName(billProduct.getProduct().getName());
-		productDTO.setId(billProduct.getProduct().getId());
-		productDTO.setPrice(billProduct.getProduct().getPrice());
-
-		BillDTO billDTO = new BillDTO();
-		billDTO.setId(billProduct.getBill().getId());
-
-		billProductDTO.setProductDTO(productDTO);
-		billProductDTO.setBillDTO(billDTO);
-
-		return billProductDTO;
+		return convertDTO(billProduct);
 	}
 
 	@Override
@@ -156,26 +106,9 @@ public class BillProductServiceImpl implements BillProductService {
 	public List<BillProductDTO> getAll(int start, int length) {
 		List<BillProduct> billProducts = billProductDao.getAll(start, length);
 		List<BillProductDTO> billProductDTOs = new ArrayList<BillProductDTO>();
-		for (BillProduct bp : billProducts) {
-			BillProductDTO billProductDTO = new BillProductDTO();
-			billProductDTO.setId(bp.getId());
-			billProductDTO.setQuantity(bp.getQuantity());
-			billProductDTO.setUnitPrice(bp.getUnitPrice());
-
-			ProductDTO productDTO = new ProductDTO();
-			productDTO.setName(bp.getProduct().getName());
-			productDTO.setId(bp.getProduct().getId());
-			productDTO.setPrice(bp.getProduct().getPrice());
-
-			BillDTO billDTO = new BillDTO();
-			billDTO.setId(bp.getBill().getId());
-
-			billProductDTO.setProductDTO(productDTO);
-			billProductDTO.setBillDTO(billDTO);
-
-			billProductDTOs.add(billProductDTO);
-
-		}
+		billProducts.forEach(billp -> {
+			billProductDTOs.add(convertDTO(billp));
+		});
 
 		return billProductDTOs;
 
@@ -191,5 +124,26 @@ public class BillProductServiceImpl implements BillProductService {
 	public long getCount() {
 		long count = billProductDao.getCount();
 		return count;
+	}
+
+	@SuppressWarnings("unused")
+	private BillProductDTO convertDTO(BillProduct bp) {
+		BillProductDTO billProductDTO = new BillProductDTO();
+		billProductDTO.setId(bp.getId());
+		billProductDTO.setQuantity(bp.getQuantity());
+		billProductDTO.setUnitPrice(bp.getUnitPrice());
+
+		ProductDTO productDTO = new ProductDTO();
+		productDTO.setName(bp.getProduct().getName());
+		productDTO.setId(bp.getProduct().getId());
+		productDTO.setPrice(bp.getProduct().getPrice());
+
+		BillDTO billDTO = new BillDTO();
+		billDTO.setId(bp.getBill().getId());
+
+		billProductDTO.setProductDTO(productDTO);
+		billProductDTO.setBillDTO(billDTO);
+
+		return billProductDTO;
 	}
 }

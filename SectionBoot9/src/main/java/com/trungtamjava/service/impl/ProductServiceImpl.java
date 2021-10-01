@@ -29,39 +29,9 @@ public class ProductServiceImpl implements ProductService {
 	public List<ProductDTO> getAllProductHighlight() {
 		List<Product> products = productDao.getAllProductHighlight();
 		List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
-		for (Product pp : products) {
-			ProductDTO productDTO = new ProductDTO();
-			productDTO.setName(pp.getName());
-			productDTO.setCreated_at(pp.getCreatedAt());
-			productDTO.setUpdated_at(pp.getUpdatedAt());
-			productDTO.setDetails(pp.getDetails());
-			productDTO.setHighlight(pp.isHighlight());
-			productDTO.setNew_product(pp.isNewProduct());
-			productDTO.setId(pp.getId());
-			productDTO.setPrice(pp.getPrice());
-			productDTO.setQuantity(pp.getQuantity());
-			productDTO.setImg(pp.getImg());
-			// get img
-			List<ColorDTO> lisColorDTOs = new ArrayList<ColorDTO>();
-			List<Color> colors = pp.getColors();
-			for (Color cc : colors) {
-				ColorDTO colorDTO = new ColorDTO();
-				colorDTO.setName(cc.getName());
-				colorDTO.setCode(cc.getCode());
-
-				lisColorDTOs.add(colorDTO);
-			}
-			productDTO.setListColorDTO(lisColorDTOs);
-
-			CategoryDTO categoryDTO = new CategoryDTO();
-			categoryDTO.setId(categoryDTO.getId());
-			categoryDTO.setName(categoryDTO.getName());
-			categoryDTO.setDescription(categoryDTO.getDescription());
-			productDTO.setCategoryDTO(categoryDTO);
-
-			productDTOs.add(productDTO);
-
-		}
+		products.forEach(product -> {
+			productDTOs.add(convertProductDTO(product));
+		});
 
 		return productDTOs;
 	}
@@ -70,43 +40,9 @@ public class ProductServiceImpl implements ProductService {
 	public List<ProductDTO> getAllNewProduct() {
 		List<Product> products2 = productDao.getAllNewProduct();
 		List<ProductDTO> productDTOs2 = new ArrayList<ProductDTO>();
-		for (Product pp : products2) {
-			ProductDTO productDTO = new ProductDTO();
-			productDTO.setName(pp.getName());
-			productDTO.setCreated_at(pp.getCreatedAt());
-			productDTO.setUpdated_at(pp.getUpdatedAt());
-			productDTO.setDetails(pp.getDetails());
-			productDTO.setHighlight(pp.isHighlight());
-			productDTO.setNew_product(pp.isNewProduct());
-			productDTO.setId(pp.getId());
-			productDTO.setPrice(pp.getPrice());
-			productDTO.setSizes(pp.getSizes());
-			productDTO.setQuantity(pp.getQuantity());
-			productDTO.setImg(pp.getImg());
-			// get img
-			List<ColorDTO> lisColorDTOs = new ArrayList<ColorDTO>();
-			List<Color> colors = pp.getColors();
-			for (Color cc : colors) {
-				ColorDTO colorDTO = new ColorDTO();
-
-				colorDTO.setName(cc.getName());
-				colorDTO.setCode(cc.getCode());
-
-				lisColorDTOs.add(colorDTO);
-			}
-			productDTO.setListColorDTO(lisColorDTOs);
-
-			CategoryDTO categoryDTO = new CategoryDTO();
-			categoryDTO.setId(categoryDTO.getId());
-			categoryDTO.setName(categoryDTO.getName());
-			categoryDTO.setDescription(categoryDTO.getDescription());
-
-			productDTO.setCategoryDTO(categoryDTO);
-
-			productDTOs2.add(productDTO);
-
-		}
-
+		products2.forEach(product -> {
+			productDTOs2.add(convertProductDTO(product));
+		});
 		return productDTOs2;
 	}
 
@@ -231,42 +167,9 @@ public class ProductServiceImpl implements ProductService {
 	public List<ProductDTO> searchByCateId(int cateId, int start, int length) {
 		List<Product> products = productDao.getByCate(cateId, start, length);
 		List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
-		for (Product pp : products) {
-			ProductDTO productDTO = new ProductDTO();
-			productDTO.setName(pp.getName());
-			productDTO.setCreated_at(pp.getCreatedAt());
-			productDTO.setUpdated_at(pp.getUpdatedAt());
-			productDTO.setDetails(pp.getDetails());
-			productDTO.setHighlight(pp.isHighlight());
-			productDTO.setNew_product(pp.isNewProduct());
-			productDTO.setId(pp.getId());
-			productDTO.setPrice(pp.getPrice());
-			productDTO.setSizes(pp.getSizes());
-			productDTO.setTitle(pp.getTitle());
-			productDTO.setQuantity(pp.getQuantity());
-			productDTO.setImg(pp.getImg());
-
-			List<ColorDTO> lisColorDTOs = new ArrayList<ColorDTO>();
-			List<Color> colors = pp.getColors();
-			for (Color cc : colors) {
-				ColorDTO colorDTO = new ColorDTO();
-				colorDTO.setName(cc.getName());
-				colorDTO.setCode(cc.getCode());
-
-				lisColorDTOs.add(colorDTO);
-			}
-			productDTO.setListColorDTO(lisColorDTOs);
-
-			CategoryDTO categoryDTO = new CategoryDTO();
-			categoryDTO.setId(pp.getCategory().getId());
-			categoryDTO.setName(pp.getCategory().getName());
-			categoryDTO.setDescription(pp.getCategory().getDescription());
-
-			productDTO.setCategoryDTO(categoryDTO);
-
-			productDTOs.add(productDTO);
-
-		}
+		products.forEach(product -> {
+			productDTOs.add(convertProductDTO(product));
+		});
 
 		return productDTOs;
 	}
@@ -287,126 +190,64 @@ public class ProductServiceImpl implements ProductService {
 	public List<ProductDTO> search(String name, int start, int lenght) {
 		List<Product> products = productDao.getByName(name, start, lenght);
 		List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
-		for (Product pp : products) {
-			ProductDTO productDTO = new ProductDTO();
-			productDTO.setName(pp.getName());
-			productDTO.setCreated_at(pp.getCreatedAt());
-			productDTO.setUpdated_at(pp.getUpdatedAt());
-			productDTO.setDetails(pp.getDetails());
-			productDTO.setHighlight(pp.isHighlight());
-			productDTO.setNew_product(pp.isNewProduct());
-			productDTO.setId(pp.getId());
-			productDTO.setPrice(pp.getPrice());
-			productDTO.setSizes(pp.getSizes());
-			productDTO.setQuantity(pp.getQuantity());
-			productDTO.setImg(pp.getImg());
+		products.forEach(product -> {
+			productDTOs.add(convertProductDTO(product));
+		});
 
-			List<ColorDTO> lisColorDTOs = new ArrayList<ColorDTO>();
-			List<Color> colors = pp.getColors();
-			for (Color cc : colors) {
-				ColorDTO colorDTO = new ColorDTO();
-				colorDTO.setName(cc.getName());
-				colorDTO.setCode(cc.getCode());
-
-				lisColorDTOs.add(colorDTO);
-			}
-			productDTO.setListColorDTO(lisColorDTOs);
-
-			CategoryDTO categoryDTO = new CategoryDTO();
-			categoryDTO.setId(pp.getCategory().getId());
-			categoryDTO.setName(pp.getCategory().getName());
-			categoryDTO.setDescription(pp.getCategory().getDescription());
-
-			productDTO.setCategoryDTO(categoryDTO);
-
-			productDTOs.add(productDTO);
-
-		}
 		return productDTOs;
-
 	}
 
 	@Override
 	public List<ProductDTO> getAll(int start, int length) {
 		List<Product> products = productDao.getAll(start, length);
 		List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
-		for (Product pp : products) {
-			ProductDTO productDTO = new ProductDTO();
-			productDTO.setName(pp.getName());
-			productDTO.setCreated_at(pp.getCreatedAt());
-			productDTO.setUpdated_at(pp.getUpdatedAt());
-			productDTO.setDetails(pp.getDetails());
-			productDTO.setHighlight(pp.isHighlight());
-			productDTO.setNew_product(pp.isNewProduct());
-			productDTO.setUpcoming(pp.isUpcoming());
-			productDTO.setId(pp.getId());
-			productDTO.setPrice(pp.getPrice());
-			productDTO.setSizes(pp.getSizes());
-			productDTO.setQuantity(pp.getQuantity());
-			productDTO.setImg(pp.getImg());
-
-			List<ColorDTO> lisColorDTOs = new ArrayList<ColorDTO>();
-			List<Color> colors = pp.getColors();
-			for (Color cc : colors) {
-				ColorDTO colorDTO = new ColorDTO();
-				colorDTO.setName(cc.getName());
-				colorDTO.setCode(cc.getCode());
-
-				lisColorDTOs.add(colorDTO);
-			}
-			productDTO.setListColorDTO(lisColorDTOs);
-
-			CategoryDTO categoryDTO = new CategoryDTO();
-			categoryDTO.setId(pp.getCategory().getId());
-			categoryDTO.setName(pp.getCategory().getName());
-			categoryDTO.setDescription(pp.getCategory().getDescription());
-
-			productDTO.setCategoryDTO(categoryDTO);
-
-			productDTOs.add(productDTO);
-
-		}
+		products.forEach(product -> {
+			productDTOs.add(convertProductDTO(product));
+		});
 		return productDTOs;
-
 	}
 
 	@Override
 	public List<ProductDTO> getAllUpcomingProduct() {
 		List<Product> products = productDao.getAllUpcomingProduct();
 		List<ProductDTO> productDTOs = new ArrayList<ProductDTO>();
-		for (Product pp : products) {
-			ProductDTO productDTO = new ProductDTO();
-			productDTO.setName(pp.getName());
-			productDTO.setCreated_at(pp.getCreatedAt());
-			productDTO.setUpdated_at(pp.getUpdatedAt());
-			productDTO.setDetails(pp.getDetails());
-			productDTO.setHighlight(pp.isHighlight());
-			productDTO.setNew_product(pp.isNewProduct());
-			productDTO.setUpcoming(pp.isUpcoming());
-			productDTO.setId(pp.getId());
-			productDTO.setPrice(pp.getPrice());
-			productDTO.setQuantity(pp.getQuantity());
-			productDTO.setImg(pp.getImg());
+		products.forEach(product -> {
+			productDTOs.add(convertProductDTO(product));
+		});
 
-			List<ColorDTO> lisColorDTOs = new ArrayList<ColorDTO>();
-			List<Color> colors = pp.getColors();
-			for (Color cc : colors) {
-				ColorDTO colorDTO = new ColorDTO();
-				colorDTO.setName(cc.getName());
-				colorDTO.setCode(cc.getCode());
-				lisColorDTOs.add(colorDTO);
-			}
-			productDTO.setListColorDTO(lisColorDTOs);
-
-			CategoryDTO categoryDTO = new CategoryDTO();
-			categoryDTO.setId(categoryDTO.getId());
-			categoryDTO.setName(categoryDTO.getName());
-			categoryDTO.setDescription(categoryDTO.getDescription());
-			productDTO.setCategoryDTO(categoryDTO);
-
-			productDTOs.add(productDTO);
-
-		}
 		return productDTOs;
+	}
+
+	private ProductDTO convertProductDTO(Product pp) {
+
+		ProductDTO productDTO = new ProductDTO();
+		productDTO.setName(pp.getName());
+		productDTO.setCreated_at(pp.getCreatedAt());
+		productDTO.setUpdated_at(pp.getUpdatedAt());
+		productDTO.setDetails(pp.getDetails());
+		productDTO.setHighlight(pp.isHighlight());
+		productDTO.setNew_product(pp.isNewProduct());
+		productDTO.setUpcoming(pp.isUpcoming());
+		productDTO.setId(pp.getId());
+		productDTO.setPrice(pp.getPrice());
+		productDTO.setQuantity(pp.getQuantity());
+		productDTO.setImg(pp.getImg());
+
+		List<ColorDTO> lisColorDTOs = new ArrayList<ColorDTO>();
+		List<Color> colors = pp.getColors();
+		for (Color cc : colors) {
+			ColorDTO colorDTO = new ColorDTO();
+			colorDTO.setName(cc.getName());
+			colorDTO.setCode(cc.getCode());
+			lisColorDTOs.add(colorDTO);
+		}
+		productDTO.setListColorDTO(lisColorDTOs);
+
+		CategoryDTO categoryDTO = new CategoryDTO();
+		categoryDTO.setId(categoryDTO.getId());
+		categoryDTO.setName(categoryDTO.getName());
+		categoryDTO.setDescription(categoryDTO.getDescription());
+		productDTO.setCategoryDTO(categoryDTO);
+		return productDTO;
 	}
 }

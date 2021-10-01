@@ -24,25 +24,9 @@ public class ColorServiceImpl implements ColorService {
 	public List<ColorDTO> getAllColor(int start, int length) {
 		List<Color> colors = colorDao.getAllColor(start, length);
 		List<ColorDTO> colorDTOs = new ArrayList<ColorDTO>();
-		for (Color c : colors) {
-			ColorDTO colorDTO = new ColorDTO();
-			colorDTO.setId(c.getId());
-			colorDTO.setCode(c.getCode());
-			colorDTO.setName(c.getName());
-
-			ProductDTO productDTO = new ProductDTO();
-			productDTO.setId(c.getProduct().getId());
-			productDTO.setName(c.getProduct().getName());
-			productDTO.setQuantity(c.getProduct().getQuantity());
-			productDTO.setHighlight(c.getProduct().isHighlight());
-			productDTO.setNew_product(c.getProduct().isNewProduct());
-			productDTO.setUpcoming(c.getProduct().isUpcoming());
-			productDTO.setImg(c.getProduct().getImg());
-
-			colorDTO.setProductDTO(productDTO);
-
-			colorDTOs.add(colorDTO);
-		}
+		colors.forEach(color -> {
+			colorDTOs.add(convertColorDTO(color));
+		});
 
 		return colorDTOs;
 	}
@@ -51,24 +35,9 @@ public class ColorServiceImpl implements ColorService {
 	public List<ColorDTO> getAllColorByName(String name, int start, int length) {
 		List<Color> colors = colorDao.getAllColorByName(name, start, length);
 		List<ColorDTO> colorDTOs = new ArrayList<ColorDTO>();
-		for (Color c : colors) {
-			ColorDTO colorDTO = new ColorDTO();
-			colorDTO.setId(c.getId());
-			colorDTO.setCode(c.getCode());
-			colorDTO.setName(c.getName());
-
-			ProductDTO productDTO = new ProductDTO();
-			productDTO.setId(c.getProduct().getId());
-			productDTO.setName(c.getProduct().getName());
-			productDTO.setQuantity(c.getProduct().getQuantity());
-			productDTO.setHighlight(c.getProduct().isHighlight());
-			productDTO.setNew_product(c.getProduct().isNewProduct());
-			productDTO.setUpcoming(c.getProduct().isUpcoming());
-			productDTO.setImg(c.getProduct().getImg());
-			colorDTO.setProductDTO(productDTO);
-
-			colorDTOs.add(colorDTO);
-		}
+		colors.forEach(color -> {
+			colorDTOs.add(convertColorDTO(color));
+		});
 
 		return colorDTOs;
 	}
@@ -113,6 +82,24 @@ public class ColorServiceImpl implements ColorService {
 	@Override
 	public ColorDTO getColor(int id) {
 		Color c = colorDao.getColor(id);
+		return convertColorDTO(c);
+	}
+
+	@Override
+	public long countGetAll() {
+		long count = colorDao.countGetAll();
+		return count;
+	}
+
+	@Override
+	public long countSearch(String name) {
+		long count = colorDao.countSearch(name);
+
+		return count;
+	}
+
+	@SuppressWarnings("unused")
+	private ColorDTO convertColorDTO(Color c) {
 		ColorDTO colorDTO = new ColorDTO();
 		colorDTO.setId(c.getId());
 		colorDTO.setCode(c.getCode());
@@ -129,19 +116,6 @@ public class ColorServiceImpl implements ColorService {
 		colorDTO.setProductDTO(productDTO);
 
 		return colorDTO;
-	}
-
-	@Override
-	public long countGetAll() {
-		long count = colorDao.countGetAll();
-		return count;
-	}
-
-	@Override
-	public long countSearch(String name) {
-		long count = colorDao.countSearch(name);
-
-		return count;
 	}
 
 }

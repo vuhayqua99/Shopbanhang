@@ -26,14 +26,9 @@ public class CategoryServiceImpl implements CategoryService {
 		List<Category> categories = categoryDao.getAllCategorys(start, length);
 		List<CategoryDTO> categoryDTOs = new ArrayList<CategoryDTO>();
 
-		for (Category cate : categories) {
-			CategoryDTO categoryDTO = new CategoryDTO();
-			categoryDTO.setName(cate.getName());
-			categoryDTO.setDescription(cate.getDescription());
-			categoryDTO.setId(cate.getId());
-			categoryDTOs.add(categoryDTO);
-		}
-
+		categories.forEach(cate -> {
+			categoryDTOs.add(convertToDTO(cate));
+		});
 		return categoryDTOs;
 	}
 
@@ -83,15 +78,9 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<CategoryDTO> getByName(String name, int start, int lenght) {
 		List<Category> categories = categoryDao.getByName(name, start, lenght);
 		List<CategoryDTO> categoryDTOs = new ArrayList<CategoryDTO>();
-
-		for (Category cate : categories) {
-			CategoryDTO categoryDTO = new CategoryDTO();
-			categoryDTO.setName(cate.getName());
-			categoryDTO.setDescription(cate.getDescription());
-			categoryDTO.setId(cate.getId());
-
-			categoryDTOs.add(categoryDTO);
-		}
+		categories.forEach(cate -> {
+			categoryDTOs.add(convertToDTO(cate));
+		});
 
 		return categoryDTOs;
 	}
@@ -99,23 +88,8 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public CategoryDTO getById(int id) {
 		Category category = categoryDao.get(id);
-		CategoryDTO categoryDTO = new CategoryDTO();
-		categoryDTO.setId(category.getId());
-		categoryDTO.setDescription(category.getDescription());
-		categoryDTO.setName(category.getName());
 
-		List<ProductDTO> liProductDTOs = new ArrayList<ProductDTO>();
-		List<Product> liProducts = category.getProducts();
-		for (Product p : liProducts) {
-			ProductDTO productDTO = new ProductDTO();
-			productDTO.setName(p.getName());
-			productDTO.setImg(p.getImg());
-			productDTO.setId(p.getId());
-
-			liProductDTOs.add(productDTO);
-		}
-		categoryDTO.setLProductDTOs(liProductDTOs);
-		return categoryDTO;
+		return convertToDTO(category);
 	}
 
 	@Override
@@ -134,8 +108,18 @@ public class CategoryServiceImpl implements CategoryService {
 		categoryDTO.setId(category.getId());
 		categoryDTO.setName(category.getName());
 		categoryDTO.setDescription(category.getDescription());
-		
-		
+		List<ProductDTO> liProductDTOs = new ArrayList<ProductDTO>();
+		List<Product> liProducts = category.getProducts();
+		for (Product p : liProducts) {
+			ProductDTO productDTO = new ProductDTO();
+			productDTO.setName(p.getName());
+			productDTO.setImg(p.getImg());
+			productDTO.setId(p.getId());
+
+			liProductDTOs.add(productDTO);
+		}
+		categoryDTO.setLProductDTOs(liProductDTOs);
+
 		return categoryDTO;
 	}
 

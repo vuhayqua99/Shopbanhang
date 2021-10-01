@@ -82,16 +82,19 @@ public class SectionBoot9Application extends WebMvcConfigurationSupport  {
 		protected void configure(HttpSecurity http) throws Exception {
 			http.cors().and().authorizeRequests().antMatchers("/admin/**").hasAnyRole(RoleEnum.ADMIN.getRoleName())
 					.antMatchers("/member/**").authenticated().anyRequest().permitAll().and().formLogin()
+					//moi request co duong dan la /admin/**(co ROLE_ADMIN) va duong dan la /member/** thi deu phai xac thuc
 					.loginPage("/login").loginProcessingUrl("/login").defaultSuccessUrl("/")
 					.failureUrl("/login?e=error").and().logout().logoutUrl("/logout").logoutSuccessUrl("/login")
 					.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).clearAuthentication(true)
+					//login page co duong dan la /login.Neu thanh cong thi chuyen huong sang 
+					// duong dan /member/home.Neu loi thi quay lai trang /login?err de thong bao loi.Logout co url
+					//la /logout,neu logout thanh cong thi quay lai trang login
 					.invalidateHttpSession(true).deleteCookies("JSESSIONID", "app-remember-me").permitAll().and()
-					.exceptionHandling().accessDeniedPage("/access-deny").and().sessionManagement()
+					.exceptionHandling().accessDeniedPage("/login?e=deny").and().sessionManagement()
 					.sessionCreationPolicy(SessionCreationPolicy.ALWAYS).sessionFixation().migrateSession()
 					.maximumSessions(-1).sessionRegistry(sessionRegistry());
 			http.headers().frameOptions().sameOrigin();
 		}
-		
 	}
 
 	@Autowired

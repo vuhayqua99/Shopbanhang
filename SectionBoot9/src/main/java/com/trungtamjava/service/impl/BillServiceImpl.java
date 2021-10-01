@@ -25,38 +25,9 @@ public class BillServiceImpl implements BillService {
 	public List<BillDTO> searchByBuyerId(int id) {
 		List<Bill> bills = billDao.searchByBuyerId(id);
 		List<BillDTO> billDTOs = new ArrayList<BillDTO>();
-		for (Bill b : bills) {
-			BillDTO billDTO = new BillDTO();
-			billDTO.setId(b.getId());
-			billDTO.setBuyDate(b.getBuyDate());
-			billDTO.setCouponsName(b.getCouponsName());
-			billDTO.setDiscountPercent(b.getDiscountPercent());
-			billDTO.setPay(b.getPay());
-			billDTO.setPriceTotal(b.getPriceTotal());
-			billDTO.setStatus(b.getStatus());
-			billDTO.setAddressReceiver(b.getAddressReceiver());
-			billDTO.setNameReceiver(b.getNameReceiver());
-			billDTO.setPhoneReceiver(b.getPhoneReceiver());
-			billDTO.setNote(b.getNote());
-
-			UserDTO userDTO = new UserDTO();
-			userDTO.setAddress(b.getUser().getAddress());
-			userDTO.setId(b.getUser().getId());
-			userDTO.setEmail(b.getUser().getEmail());
-			userDTO.setEnabled(b.getUser().isEnabled());
-			userDTO.setGender(b.getUser().getGender());
-			userDTO.setName(b.getUser().getName());
-			userDTO.setPassword(b.getUser().getPassword());
-			userDTO.setPhone(b.getUser().getPhone());
-			userDTO.setRole(b.getUser().getRole());
-			userDTO.setUsername(b.getUser().getUsername());
-
-			billDTO.setBuyer(userDTO);
-
-			billDTOs.add(billDTO);
-
-		}
-
+		bills.forEach(bill -> {
+			billDTOs.add(convertBill(bill));
+		});
 		return billDTOs;
 	}
 
@@ -64,73 +35,17 @@ public class BillServiceImpl implements BillService {
 	public List<BillDTO> searchByBuyerName(String name, int start, int lenght) {
 		List<Bill> bills = billDao.searchByBuyerName(name, start, lenght);
 		List<BillDTO> billDTOs = new ArrayList<BillDTO>();
-		for (Bill b : bills) {
-			BillDTO billDTO = new BillDTO();
-			billDTO.setId(b.getId());
-			billDTO.setBuyDate(b.getBuyDate());
-			billDTO.setCouponsName(b.getCouponsName());
-			billDTO.setDiscountPercent(b.getDiscountPercent());
-			billDTO.setPay(b.getPay());
-			billDTO.setPriceTotal(b.getPriceTotal());
-			billDTO.setStatus(b.getStatus());
-			billDTO.setAddressReceiver(b.getAddressReceiver());
-			billDTO.setNameReceiver(b.getNameReceiver());
-			billDTO.setPhoneReceiver(b.getPhoneReceiver());
-			billDTO.setNote(b.getNote());
-
-			UserDTO userDTO = new UserDTO();
-			userDTO.setAddress(b.getUser().getAddress());
-			userDTO.setId(b.getUser().getId());
-			userDTO.setEmail(b.getUser().getEmail());
-			userDTO.setEnabled(b.getUser().isEnabled());
-			userDTO.setGender(b.getUser().getGender());
-			userDTO.setName(b.getUser().getName());
-			userDTO.setPassword(b.getUser().getPassword());
-			userDTO.setPhone(b.getUser().getPhone());
-			userDTO.setRole(b.getUser().getRole());
-			userDTO.setUsername(b.getUser().getUsername());
-
-			billDTO.setBuyer(userDTO);
-
-			billDTOs.add(billDTO);
-
-		}
-
+		bills.forEach(bill -> {
+			billDTOs.add(convertBill(bill));
+		});
 		return billDTOs;
 	}
 
 	@Override
 	public BillDTO get(int id) {
 		Bill bill = billDao.get(id);
-		BillDTO billDTO = new BillDTO();
 
-		billDTO.setId(bill.getId());
-		billDTO.setBuyDate(bill.getBuyDate());
-		billDTO.setCouponsName(bill.getCouponsName());
-		billDTO.setDiscountPercent(bill.getDiscountPercent());
-		billDTO.setPay(bill.getPay());
-		billDTO.setPriceTotal(bill.getPriceTotal());
-		billDTO.setStatus(bill.getStatus());
-		billDTO.setAddressReceiver(bill.getAddressReceiver());
-		billDTO.setNameReceiver(bill.getNameReceiver());
-		billDTO.setPhoneReceiver(bill.getPhoneReceiver());
-		billDTO.setNote(bill.getNote());
-
-		UserDTO userDTO = new UserDTO();
-		userDTO.setAddress(bill.getUser().getAddress());
-		userDTO.setId(bill.getUser().getId());
-		userDTO.setEmail(bill.getUser().getEmail());
-		userDTO.setEnabled(bill.getUser().isEnabled());
-		userDTO.setGender(bill.getUser().getGender());
-		userDTO.setName(bill.getUser().getName());
-		userDTO.setPassword(bill.getUser().getPassword());
-		userDTO.setPhone(bill.getUser().getPhone());
-		userDTO.setRole(bill.getUser().getRole());
-		userDTO.setUsername(bill.getUser().getUsername());
-
-		billDTO.setBuyer(userDTO);
-
-		return billDTO;
+		return convertBill(bill);
 	}
 
 	@Override
@@ -214,37 +129,9 @@ public class BillServiceImpl implements BillService {
 	public List<BillDTO> getAllBillByName(String name, int start, int lenght) {
 		List<Bill> bills = billDao.getAllbyName(name, start, lenght);
 		List<BillDTO> billDTOs = new ArrayList<BillDTO>();
-		for (Bill b : bills) {
-			BillDTO billDTO = new BillDTO();
-			billDTO.setId(b.getId());
-			billDTO.setBuyDate(b.getBuyDate());
-			billDTO.setCouponsName(b.getCouponsName());
-			billDTO.setDiscountPercent(b.getDiscountPercent());
-			billDTO.setPay(b.getPay());
-			billDTO.setPriceTotal(b.getPriceTotal());
-			billDTO.setStatus(b.getStatus());
-			billDTO.setAddressReceiver(b.getAddressReceiver());
-			billDTO.setNameReceiver(b.getNameReceiver());
-			billDTO.setNote(b.getNote());
-			billDTO.setPhoneReceiver(b.getPhoneReceiver());
-
-			UserDTO userDTO = new UserDTO();
-			userDTO.setAddress(b.getUser().getAddress());
-			userDTO.setId(b.getUser().getId());
-			userDTO.setEmail(b.getUser().getEmail());
-			userDTO.setEnabled(b.getUser().isEnabled());
-			userDTO.setGender(b.getUser().getGender());
-			userDTO.setName(b.getUser().getName());
-			userDTO.setPassword(b.getUser().getPassword());
-			userDTO.setPhone(b.getUser().getPhone());
-			userDTO.setRole(b.getUser().getRole());
-			userDTO.setUsername(b.getUser().getUsername());
-
-			billDTO.setBuyer(userDTO);
-
-			billDTOs.add(billDTO);
-
-		}
+		bills.forEach(bill -> {
+			billDTOs.add(convertBill(bill));
+		});
 
 		return billDTOs;
 	}
@@ -253,37 +140,9 @@ public class BillServiceImpl implements BillService {
 	public List<BillDTO> getAll(int start, int lenght) {
 		List<Bill> bills = billDao.getAll(start, lenght);
 		List<BillDTO> billDTOs = new ArrayList<BillDTO>();
-		for (Bill b : bills) {
-			BillDTO billDTO = new BillDTO();
-			billDTO.setId(b.getId());
-			billDTO.setBuyDate(b.getBuyDate());
-			billDTO.setCouponsName(b.getCouponsName());
-			billDTO.setDiscountPercent(b.getDiscountPercent());
-			billDTO.setPay(b.getPay());
-			billDTO.setPriceTotal(b.getPriceTotal());
-			billDTO.setStatus(b.getStatus());
-			billDTO.setAddressReceiver(b.getAddressReceiver());
-			billDTO.setNameReceiver(b.getNameReceiver());
-			billDTO.setNote(b.getNote());
-			billDTO.setPhoneReceiver(b.getPhoneReceiver());
-
-			UserDTO userDTO = new UserDTO();
-			userDTO.setAddress(b.getUser().getAddress());
-			userDTO.setId(b.getUser().getId());
-			userDTO.setEmail(b.getUser().getEmail());
-			userDTO.setEnabled(b.getUser().isEnabled());
-			userDTO.setGender(b.getUser().getGender());
-			userDTO.setName(b.getUser().getName());
-			userDTO.setPassword(b.getUser().getPassword());
-			userDTO.setPhone(b.getUser().getPhone());
-			userDTO.setRole(b.getUser().getRole());
-			userDTO.setUsername(b.getUser().getUsername());
-
-			billDTO.setBuyer(userDTO);
-
-			billDTOs.add(billDTO);
-
-		}
+		bills.forEach(bill -> {
+			billDTOs.add(convertBill(bill));
+		});
 
 		return billDTOs;
 	}
@@ -295,5 +154,36 @@ public class BillServiceImpl implements BillService {
 			bill.setStatus(billDTO.getStatus());
 			billDao.setStatus(bill);
 		}
+	}
+
+	@SuppressWarnings("unused")
+	private BillDTO convertBill(Bill b) {
+		BillDTO billDTO = new BillDTO();
+		billDTO.setId(b.getId());
+		billDTO.setBuyDate(b.getBuyDate());
+		billDTO.setCouponsName(b.getCouponsName());
+		billDTO.setDiscountPercent(b.getDiscountPercent());
+		billDTO.setPay(b.getPay());
+		billDTO.setPriceTotal(b.getPriceTotal());
+		billDTO.setStatus(b.getStatus());
+		billDTO.setAddressReceiver(b.getAddressReceiver());
+		billDTO.setNameReceiver(b.getNameReceiver());
+		billDTO.setNote(b.getNote());
+		billDTO.setPhoneReceiver(b.getPhoneReceiver());
+
+		UserDTO userDTO = new UserDTO();
+		userDTO.setAddress(b.getUser().getAddress());
+		userDTO.setId(b.getUser().getId());
+		userDTO.setEmail(b.getUser().getEmail());
+		userDTO.setEnabled(b.getUser().isEnabled());
+		userDTO.setGender(b.getUser().getGender());
+		userDTO.setName(b.getUser().getName());
+		userDTO.setPassword(b.getUser().getPassword());
+		userDTO.setPhone(b.getUser().getPhone());
+		userDTO.setRole(b.getUser().getRole());
+		userDTO.setUsername(b.getUser().getUsername());
+
+		billDTO.setBuyer(userDTO);
+		return billDTO;
 	}
 }

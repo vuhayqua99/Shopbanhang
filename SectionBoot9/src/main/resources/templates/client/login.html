@@ -84,7 +84,7 @@ Body Section
 					<div class="well">
 						<h5>ALREADY REGISTERED ?</h5>
 						
-						<p th:if="${e} == 'erorr'">Tài khoản mật khẩu không chính xác</p>
+						<p th:if="${e} == 'error'">Tài khoản mật khẩu không chính xác</p>
 						<p th:if="${e} == 'deny'">Tài khoản không được quyền truy cập</p>
 						<form method="post" th:action="@{/login}">
 							<div class="control-group">
