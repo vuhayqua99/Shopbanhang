@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html layout:decorator="admin/template">
+<head>
+<meta charset="utf-8">
+<title>Add coupon</title>
+</head>
+<body layout:fragment="content" th:remove="tag">
+	<div class="span9">
+		<ul class="breadcrumb">
+			<li><a th:href="@{/admin}">Home</a> <span class="divider">/</span></li>
+			<li class="active">Add coupon</li>
+		</ul>
+		<h3>Add coupon</h3>
+		<hr class="soft" />
+		<div class="well">
+			<p th:text=${sucess}></p>
+			<form class="form-horizontal" th:action="@{/admin/coupon/update}"
+				th:object="${coupon}" method="post">
+				<input type="hidden" th:field="*{id}" id="id">
+				<div class="control-group">
+					<label class="control-label" for="inputFname">Tên Mã <sup>*</sup></label>
+					<div class="controls">
+						<input type="text" th:field="*{name}" th:value="${coupon.name}"
+							placeholder="Nhập mã">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="inputFname">Phần trăm
+						giảm giá <sup>*</sup>
+					</label>
+					<div class="controls">
+						<input type="number" th:field="*{persent}"
+							th:value="${coupon.persent}" placeholder="Nhập phần trăm">
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<input type="submit" name="submitAccount" value="Add"
+							class="exclusive shopBtn">
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

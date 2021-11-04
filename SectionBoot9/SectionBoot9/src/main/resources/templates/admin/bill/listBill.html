@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html layout:decorator="admin/template">
+<head>
+<meta charset="utf-8">
+<title>Danh sách bill</title>
+<style>
+.pagination {
+	display: flex;
+	justify-content: center;
+}
+
+.pagination a {
+	color: black;
+	float: left;
+	padding: 8px 16px;
+	text-decoration: none;
+	transition: background-color .3s;
+	border: 1px solid #ddd;
+}
+
+.pagination a.active {
+	background-color: #4CAF50;
+	color: white;
+	border: 1px solid #4CAF50;
+}
+
+.pagination a:hover:not(.active) {
+	background-color: #ddd;
+}
+</style>
+</head>
+<body layout:fragment="content" th:remove="tag">
+	<div class="row">
+
+		<div class="span15	">
+			<ul class="breadcrumb">
+				<li><a th:href="@{/admin}">Home</a> <span class="divider">/</span></li>
+				<li class="active">bill</li>
+			</ul>
+			<form th:action="@{/admin/bill/search}"
+				class="navbar-search pull-left" method="get">
+				<input type="text" class="search-query span2" name="name"
+					placeholder="Tim them ten">
+				<button type="submit">
+					<i class="material-icons">search</i>
+				</button>
+			</form>
+			<div class="well well-small">
+				<hr class="soft" />
+				<h2>Danh sách bill</h2>
+				<table class="table table-condensed">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Tên người nhận</th>
+							<th>Địa chỉ</th>
+							<th>Số điện thoại</th>
+							<th>Status</th>
+							<th>BuyDate</th>
+							<th>DiscountPersent</th>
+							<th>Coupons Name</th>
+							<th>Pay</th>
+							<th>Price Total</th>
+							<th>Chú thích</th>
+							<th>Option</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="bill:${billList}">
+							<td th:text="${bill.id}"></td>
+							<td th:text="${bill.nameReceiver}"></td>
+							<td th:text="${bill.addressReceiver}"></td>
+							<td th:text="${bill.phoneReceiver}"></td>
+							<td th:text="${bill.status}"></td>
+							<td th:text="${bill.buyDate}"></td>
+							<td th:text="${bill.discountPercent+'%'}"></td>
+							<td th:text="${bill.couponsName}"></td>
+							<td th:text="${bill.pay}"></td>
+							<td th:text="${bill.priceTotal}"></td>
+							<td th:text="${bill.note}"></td>
+							<td><a class="btn btn-primary btn-xs"
+								th:href="@{'/admin/bill-product/search-by-bill-id?billId='+${bill.id}}"><i
+									class="fa fa-bars "></i>BillProduct</a><a class="btn btn-success btn-xs"
+								th:href="@{'/admin/bill/set-status?id='+${bill.id}}"><i
+									class="fa fa-trash-o "></i>Status</a><a class="btn btn-danger btn-xs"
+								th:href="@{'/admin/bill/delete?id='+${bill.id}}"><i
+									class="fa fa-trash-o "></i>Xóa</a></td>
+						</tr>
+
+					</tbody>
+				</table>
+				<br />
+			</div>
+		</div>
+	</div>
+	<div th:if="${result &gt; 0}">
+		<div class="pagination">
+			<a th:class="${i == currentPage ? 'active' : '' }"
+				th:href="@{'/admin/billproduct/searchByBill?page=' + ${i}} +'&billId=' +${id}"
+				th:each="i : ${#numbers.sequence( 1, result)}" th:text="${ i }+'  '"></a>
+		</div>
+	</div>
+</body>
+</html>

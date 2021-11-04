@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html layout:decorator="client/template">
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body layout:fragment="content" th:remove="tag">
+	<div class="well ">
+		<form class="form-horizontal " th:action="@{/member/check-out}"
+			th:object="${billDTO}" method="post">
+			<p th:text=${sucess}></p>
+			<h3>Thanh toán đơn hàng</h3>
+			<input type="hidden" th:field="*{id}" id="id">
+			<div class="control-group">
+				<label class="control-label">Tên người nhận <sup>*</sup></label>
+				<div class="controls">
+					<input type="text" placeholder="Ten" th:field="*{nameReceiver}"
+						th:value="${billDTO.nameReceiver}">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Số điện thoại<sup>*</sup></label>
+				<div class="controls">
+					<input type="text" placeholder=" Số điện thoại"
+						th:field="*{phoneReceiver}" th:value="${billDTO.phoneReceiver}">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Địa chỉ nhà riêng <sup>*</sup></label>
+				<div class="controls">
+					<input type="text" placeholder=" Địa chỉ"
+						th:field="*{addressReceiver}"
+						th:value="${billDTO.addressReceiver}">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Ghi chú <sup>*</sup></label>
+				<div class="controls">
+					<textarea th:field="*{note}" th:value="${billDTO.note}"></textarea>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Số tiền trả <sup>*</sup></label>
+				<div class="controls">
+					<input type="text" placeholder="pay" readonly th:field="*{pay}"
+						th:value="${billDTO.pay}">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Vé mua sắm<sup>*</sup></label>
+				<div class="controls">
+					<input type="text" placeholder="Tên" readonly
+						th:field="*{couponsName}" th:value="${billDTO.couponsName}">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Phần trăm giảm giá %<sup>*</sup></label>
+				<div class="controls">
+					<input type="text" placeholder="Giảm giá" readonly
+						th:field="*{discountPercent}"
+						th:value="${billDTO.discountPercent}">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Tổng tiền <sup>*</sup></label>
+				<div class="controls">
+					<input type="text" placeholder="total" readonly
+						th:field="*{priceTotal}" th:value="${billDTO.priceTotal}">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label">Trạng thái mua hàng <sup>*</sup></label>
+				<div class="controls">
+					<input type="text" placeholder="status" readonly
+						th:field="*{status}" th:value="${status}">
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<input type="submit" name="submitAccount" value="Xác nhận"
+						class="shopBtn exclusive">
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html layout:decorator="client/template">
+<head>
+<meta charset="utf-8">
+<title>My account</title>
+</head>
+<body layout:fragment="content" th:remove="tag">
+	<div class="row">
+		<div id="sidebar" class="span3">
+			<div class="well well-small">
+				<ul class="nav nav-list">
+					<div th:each="cate: ${categories}">
+						<li><a th:href="@{'/san-pham?cId=' + ${cate.id}}"><span
+								class="icon-circle-blank" th:text="' '+${cate.name}"></span></a></li> </br>
+					</div>
+					<li><a class="totalInCart" th:href="cart.html"><strong>Tổng
+								Tiền <span class="badge badge-warning pull-right"
+								style="line-height: 18px;">$448.42</span>
+						</strong></a></li>
+				</ul>
+			</div>
+
+			<div class="well well-small alert alert-warning cntr">
+				<h2>50% Discount</h2>
+				<p>
+					only valid for online order. <br> <br> <a
+						class="defaultBtn" href="#">Click here </a>
+				</p>
+			</div>
+			<div class="well well-small">
+				<a href="#"><img th:src="@{/assets/user/img/paypal.jpg}"
+					alt="payment method paypal"></a>
+			</div>
+
+			<a class="shopBtn btn-block" href="#">Sản phẩm sắp ra mắt <br>
+				<small>Click to view</small></a> <br> <br>
+			<ul class="nav nav-list promowrapper">
+				<div th:each="pro3: ${products3}">
+					<li>
+						<div class="thumbnail">
+							<a class="zoomTool"
+								th:href="@{'/chi-tiet-san-pham/' +${pro3.id}}"
+								title="add to cart"><span class="icon-search"></span> QUICK
+								VIEW</a> <img th:src="@{'/download?image=/' + ${pro3.img}}"
+								alt="bootstrap ecommerce templates">
+							<div class="caption">
+								<h4>
+									<a class="defaultBtn"
+										th:href="@{'/chi-tiet-san-pham/' +${pro3.id}}">VIEW</a> <span
+										class="pull-right"
+										th:text="${#numbers.formatDecimal(pro3.price, 0, 'COMMA', 0, 'POINT')}+'₫'"></span>
+								</h4>
+							</div>
+						</div>
+					</li>
+					<li style="border: 0">&nbsp;</li>
+				</div>
+			</ul>
+
+		</div>
+		<div class="span9">
+			<ul class="breadcrumb">
+				<li><a th:href="@{/}">Home</a> <span class="divider">/</span></li>
+				<li class="active">Page Title</li>
+			</ul>
+			<div class="well well-small">
+
+
+				<hr class="soft" />
+				<h2>Thông tin cá nhân</h2>
+				<table class="table table-condensed">
+					<thead>
+						<tr>
+							<th>Tên</th>
+							<th>Điện thoại</th>
+							<th>Email</th>
+							<th>Username</th>
+							<th>Tùy chọn</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td th:text="${user.name}"></td>
+							<td th:text="${user.phone}"></td>
+							<td th:text="${user.email}"></td>
+							<td th:text="${user.username}"></td>
+							<td><a class="btn btn-primary btn-xs"
+								th:href="@{'/member/update?id=' + ${user.id}}">Sửa </a><i
+								class="fa fa-pencil"></i><a class="btn btn-danger btn-xs"
+								th:href="@{'/member/enable?id=' + ${user.id}}">Vô hiệu hóa
+									tài khoản </a></td>
+						</tr>
+					</tbody>
+				</table>
+
+				<h5 class="center">Cảm ơn bạn đã luôn ủng hộ và sử dụng dịch vụ
+					của chúng tôi.</h5>
+				<br />
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>
